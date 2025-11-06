@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    
+    
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Streamlit App",
+            "type": "python",
+            "request": "launch",
+            "program": "D:\\EDrivebackup\\brocamp\\techTest\\Math_Adventures\\mathenv\\Lib\\site-packages\\streamlit\\web\\cli.py",
+            "args": [
+                "run",
+                "D:\\EDrivebackup\\brocamp\\techTest\\Math_Adventures\\Math_Adventures\\src\\main.py"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
+
