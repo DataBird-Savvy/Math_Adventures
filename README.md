@@ -51,6 +51,8 @@ The system uses a hybrid approach:
 ### 🔹 Machine Learning
 Predicts the next difficulty level based on historical performance.
 
+![alt text](image-2.png)
+
 ### 🔹 Rule-Based Adjustments
 
 if correct:

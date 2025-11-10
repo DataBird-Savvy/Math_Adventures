@@ -6,6 +6,8 @@ from adaptive_engine import AdaptiveEngine
 from tracker import ProgressTracker
 from logger import logger 
 
+from exception import MathsException
+
 # -------------------------------------------------------------------------
 # Initialize Logger
 # -------------------------------------------------------------------------
@@ -106,59 +108,63 @@ with col2:
 # Check Answer
 # -------------------------------------------------------------------------
 if check_btn and not st.session_state["show_answer"]:
-    end_time = time.time()
-    response_time = end_time - st.session_state["question_start_time"]
-
     try:
-        user_answer_int = int(user_answer)
-        correct = (user_answer_int == int(correct_answer))
-    except Exception:
-        correct = False
+        end_time = time.time()
+        response_time = end_time - st.session_state["question_start_time"]
 
-    confidence_score = tracker.calculate_confidence(
-        correct,
-        st.session_state["difficulty"],
-        response_time,
-        st.session_state["streak"],
-        st.session_state["expected_time"],
-    )
-    st.session_state['confidence'] = confidence_score
-    logger.info(
-        f"Answer checked | Question: {question} | Correct: {correct} | "
-        f"Response Time: {response_time:.2f}s | Confidence: {confidence_score:.2f}"
-    )
-
-    next_level, st.session_state["streak"] = engine.recommend_next_level(
-        st.session_state["difficulty"],
-        correct,
-        response_time,
-        st.session_state["streak"],
-        confidence_score,
-    )
-
-    st.session_state["recommended_level"] = next_level
-    st.session_state["show_answer"] = True
+        try:
+            user_answer_int = int(user_answer)
+            correct = (user_answer_int == int(correct_answer))
+        except ValueError:
+            correct = False
+            logger.warning(f"Wrong input format: {user_answer}")
+            st.warning("⚠️ Please enter a valid number.")
 
 
-    tracker.log_progress(
-        st.session_state["session_id"],
-        st.session_state["difficulty"],
-        correct,
-        response_time,
-        st.session_state["streak"],
-        confidence=confidence_score
-    )
-
-    logger.info(
-        f"Progress logged | Session: {st.session_state['session_id']} | "
-        f"Level: {st.session_state['difficulty']} | Next Level: {next_level}"
-    )
+        confidence_score = tracker.calculate_confidence(
+            correct,
+            st.session_state["difficulty"],
+            response_time,
+            st.session_state["streak"],
+            st.session_state["expected_time"],
+        )
+        st.session_state['confidence'] = confidence_score
 
 
-    if correct:
-        st.success(f"✅ Correct! Time: {response_time:.2f}s")
-    else:
-        st.error(f"❌ Incorrect. Correct Answer: **{correct_answer}** (Time: {response_time:.2f}s)")
+        next_level, st.session_state["streak"] = engine.recommend_next_level(
+            st.session_state["difficulty"],
+            correct,
+            response_time,
+            st.session_state["streak"],
+            confidence_score,
+        )
+        st.session_state["recommended_level"] = next_level
+        st.session_state["show_answer"] = True
+
+        
+        tracker.log_progress(
+            st.session_state["session_id"],
+            st.session_state["difficulty"],
+            correct,
+            response_time,
+            st.session_state["streak"],
+            confidence_score,
+        )
+
+        
+        if correct:
+            st.success(f"✅ Correct! Time: {response_time:.2f}s")
+        else:
+            st.error(f"❌ Incorrect. Correct Answer: **{correct_answer}**")
+
+        logger.info("Answer processed successfully")
+
+    except MathsException as me:
+        logger.error(f"Maths Exception: {str(me)}")
+        st.error("⚠️ A math-related error occurred. Please try again.")
+    except Exception as e:
+        logger.error(f"Unexpected Error: {str(e)}")
+        st.error("⚠️ Something went wrong! Try again.")
 
     
 
