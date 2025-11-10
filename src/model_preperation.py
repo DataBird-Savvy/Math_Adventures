@@ -5,7 +5,7 @@ import pickle
 
 data=pd.read_csv("../data/learning_progress_expanded.csv")
 
-X = data[["difficulty", "response_time", "correct", "streak"]]
+X = data[["difficulty", "response_time", "correct", "streak","confidence"]]
 y = data["next_level"]
 
 
@@ -13,7 +13,7 @@ y = data["next_level"]
 model = RandomForestClassifier()
 model.fit(X, y)
 
-pred = model.predict([[2, 6.1, 1, 2]])  
+pred = model.predict([[2, 6.1, 1, 2,87.5]])  
 print("Predicted next level:", pred[0])
 
 
