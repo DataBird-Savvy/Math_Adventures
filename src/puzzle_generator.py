@@ -37,7 +37,7 @@ class PuzzleGenerator:
         level = level.capitalize()
         self.logger.info(f"Generating puzzle | Level: {level}, Streak: {streak}, Confidence: {confidence}")
 
-        # Increase intensity if confidence is high
+      
         confidence_high = confidence >= 80
         confidence_low = confidence <= 50
 
