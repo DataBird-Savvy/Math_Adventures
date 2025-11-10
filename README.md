@@ -61,11 +61,13 @@ streak = 0
 
 Confidence is calculated using:
 
-- correctness  
-- response time  
-- expected time  
-- current difficulty  
-- streak  
+base = 50
++ correctness impact (±20)
++ streak bonus (up to +40)
++ time impact (−15 to +15)
++ difficulty reward (+3/+6/+9 if correct)
+→ Clamped between 0 and 100
+
 
 Puzzle difficulty adapts based on:
 

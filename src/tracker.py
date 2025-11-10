@@ -73,10 +73,7 @@ class ProgressTracker:
         Calculate learner confidence score (0-100).
         """
         confidence = 50
-
-
         confidence += 20 * (2 * int(correct) - 1)
-
         confidence += 2 * min(streak, 20)
 
 
@@ -86,8 +83,6 @@ class ProgressTracker:
 
         difficulty_score = {"Easy": 1, "Medium": 2, "Hard": 3}.get(difficulty, 1)
         confidence += 3 * difficulty_score * int(correct)
-
-      
         confidence = max(0, min(100, confidence))
 
         final_score = round(confidence, 2)
