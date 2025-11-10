@@ -4,6 +4,7 @@ Math Adventures is an AI-powered adaptive learning system that dynamically adjus
 It uses real-time analytics, machine learning, and heuristic rules to deliver a personalized learning experience.
 
 ---
+![alt text](image-1.png)
 
 ## 🚀 Features
 
